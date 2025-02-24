@@ -66,7 +66,11 @@
     - models come through as [['model'], ['model_b']]
     - srcs come through as [['source','table'], ['source_b','table_b']]
 */
-{% macro process_refs( ref_list, is_src=false ) %}
+{% macro process_refs(ref_list, is_src=false) %}
+  {{ return(adapter.dispatch('process_refs', 'dbt_snowflake_query_tags')(ref_list, is_src=false)) }}
+{% endmacro %}
+
+{% macro default__process_refs( ref_list, is_src=false ) %}
   {% set refs = [] %}
 
   {% if ref_list is defined and ref_list|length > 0 %}
