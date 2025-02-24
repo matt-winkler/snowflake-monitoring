@@ -41,7 +41,7 @@
   {% if target.name != 'default' %}
       create table if not exists {{ history_tbl }} as (
         select 
-          {{ dbt_utils.surrogate_key(["test_name", "test_result", "_timestamp"]) }} as sk_id, 
+          {{ dbt_utils.generate_surrogate_key(["test_name", "test_result", "_timestamp"]) }} as sk_id, 
           * 
         from {{ central_tbl }}
         where false
@@ -49,7 +49,7 @@
 
     insert into {{ history_tbl }} 
       select 
-       {{ dbt_utils.surrogate_key(["test_name", "test_result", "_timestamp"]) }} as sk_id, 
+       {{ dbt_utils.generate_surrogate_key(["test_name", "test_result", "_timestamp"]) }} as sk_id, 
        * 
       from {{ central_tbl }}
     ;
